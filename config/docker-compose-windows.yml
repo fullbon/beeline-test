@@ -1,0 +1,62 @@
+version: '3.5'
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  backend:
+    image: ${CONTAINER_NAME}-app
+    container_name: ${CONTAINER_NAME}-app
+    build:
+      context: ../services/app/
+      dockerfile: ./config/Dockerfile
+    env_file:
+      - ../config/.env
+    volumes:
+      - ../services/app/src:/app/
+    working_dir: /app
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - net
+
+  db:
+    container_name: ${CONTAINER_NAME}-db
+    image: postgres:12.19-bullseye
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_DATABASE}"
+    restart: unless-stopped
+    networks:
+      - net
+
+  phppgadmin:
+    container_name: ${CONTAINER_NAME}-phppgadmin
+    image: ${CONTAINER_NAME}-phppgadmin
+    build:
+      context: ../services/phppgadmin/
+      dockerfile: ./config/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ../services/phppgadmin/src:/var/www/html
+    ports:
+      - "81:80"
+    networks:
+      - net
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=${CONTAINER_NAME}-db
+      - DB_PORT=5432
+
+volumes:
+  pgdata:
