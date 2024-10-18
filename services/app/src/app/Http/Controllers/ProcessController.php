@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProcessRequest;
 use App\Http\Requests\UpdateProcessRequest;
 use App\Models\Process;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Response;
 
 class ProcessController extends Controller
 {
@@ -18,10 +18,12 @@ class ProcessController extends Controller
     public function index($agreementId): Response
     {
         $processes = Process::query()
-            ->where('agreement_id', $agreementId)
+            ->whereHas('agreement', function (Builder $query) use ($agreementId) {
+                $query->where('id', $agreementId);
+            })
             ->get();
 
-        return response(['data' => $processes]);
+        return response($processes);
     }
 
     /**
@@ -75,5 +77,11 @@ class ProcessController extends Controller
         $agreement->delete();
 
         return response(['success' => true]);
+    }
+
+    public function getById($id): Response
+    {
+        return Process::query()
+            ->find($id);
     }
 }

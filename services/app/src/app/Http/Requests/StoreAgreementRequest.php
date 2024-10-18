@@ -25,6 +25,7 @@ class StoreAgreementRequest extends FormRequest
         return [
             'region' => ['required', 'string', 'max:255'],
             'branch' => ['required', 'string', 'max:255'],
+            'status' => ['required', 'string', 'max:255'],
             'started_at' => ['required', 'date'],
             'finished_at' => ['required', 'date', 'after:started_at'],
             'comment' => ['nullable', 'string', 'max:255'],

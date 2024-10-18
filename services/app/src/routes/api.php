@@ -5,8 +5,8 @@ use App\Http\Controllers\ProcessController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('agreements')->group(function () {
-    Route::get('', [AgreementController::class, 'index']);
-    Route::post('', [AgreementController::class, 'store']);
+    Route::get('/', [AgreementController::class, 'index']);
+    Route::post('/', [AgreementController::class, 'store']);
     Route::put('{id}', [AgreementController::class, 'update']);
     Route::delete('{id}', [AgreementController::class, 'delete']);
 

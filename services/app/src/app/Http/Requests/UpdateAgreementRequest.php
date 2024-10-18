@@ -25,6 +25,7 @@ class UpdateAgreementRequest extends FormRequest
         return [
             'region' => ['sometimes', 'required', 'string', 'max:255'],
             'branch' => ['sometimes', 'required', 'string', 'max:255'],
+            'status' => ['sometimes', 'required', 'string', 'max:255'],
             'started_at' => ['sometimes', 'required', 'date'],
             'finished_at' => ['sometimes', 'required', 'date', 'after:started_at'],
             'comment' => ['nullable', 'string', 'max:255'],

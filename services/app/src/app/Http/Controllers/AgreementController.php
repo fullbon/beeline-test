@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAgreementRequest;
 use App\Http\Requests\UpdateAgreementRequest;
 use App\Models\Agreement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Response;
 
 class AgreementController extends Controller
 {
@@ -16,7 +15,7 @@ class AgreementController extends Controller
      */
     public function index(): Response
     {
-        return response(['data' => Agreement::all()]);
+        return response(Agreement::all());
     }
 
     /**

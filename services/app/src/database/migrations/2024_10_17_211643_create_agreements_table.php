@@ -21,6 +21,7 @@ return new class extends Migration
             // TODO: по-хорошему к подобным полям нужно делать справочники и связывать с ними, но в ТЗ такого не было
             $table->string('region')->comment('Регион');
             $table->string('branch')->comment('Филиал');
+            $table->string('status')->comment('Статус');
 
             $table->dateTime('started_at')->comment('Дата начала');
             $table->dateTime('finished_at')->comment('Дата окончания');
